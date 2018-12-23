@@ -6,7 +6,7 @@ struct booktype{
 	char author[10];
 	int price;
 	int fileexist;
-	char type[20];
+	char type[50];
 	booktype();
 };
 booktype::booktype(){
@@ -26,7 +26,7 @@ int main() {
 	if(login()==0){
 		return 0;
 	}
-	//bookstore.txt 書名 作者 價格 電子書是否存在 類型 
+	//bookstore.txt "book name" author price "is E-book exist?" type 
 	if((fp=fopen("bookstore.txt","r"))!=NULL){
 		for(int k=0;k<booknumber;k++){
 			fscanf(fp,"%s %s %d %d %s ",&book[k].name,&book[k].author,&book[k].price,&book[k].fileexist,&book[k].type);
@@ -39,7 +39,7 @@ int main() {
 	}
 	fclose(fp);
 	prin(n,booknumber);
-	printf("1.搜尋\n2.加入購物車\n3.結帳\n4.結束\n");
+	printf("1.Search\n2.Add to shopping cart\n3.Checkout\n4.End\n");
 	scanf("%d",&choice);
 	while(choice!=4){
 		prin(n,booknumber);
@@ -54,7 +54,7 @@ int main() {
 			default:
 				break;
 		}
-		printf("1.搜尋\n2.加入購物車\n3.結帳\n4.結束\n");
+		printf("1.Search\n2.Add to shopping cart\n3.Checkout\n4.End\n");
 		scanf("%d",&choice);
 	}
     return 0;
@@ -66,12 +66,12 @@ void prin(int *n,int len){
 	for(int i=0;i<len;i++){
 		printf("%s %s %d ",book[n[i]].name,book[n[i]].author,book[n[i]].price);
 		if(book[n[i]].fileexist==1){
-			printf("有電子書 ");
+			printf("[E-book exist] ");
 		}
 		else{
-			printf("無電子書 ");
+			printf("[E-book not exist] ");
 		}
-		printf("%s\n",book[n[i]].type);	
+		printf("%s\n\n",book[n[i]].type);	
 	}
 }
 void search(){
@@ -79,7 +79,7 @@ void search(){
 	char s[10];
 	int choice;
 	int k=0;
-	printf("1.以書名搜尋\n2.以作者搜尋\n3.以類型搜尋\n4.結束\n");
+	printf("1.Search by book name\n2.Search by author\n3.Search by type\n4.End\n");
 	scanf("%d",&choice);
 	switch(choice){
 		case 1:
@@ -109,3 +109,4 @@ void search(){
 			break;
 	}
 }
+
