@@ -1423,7 +1423,62 @@ void exchange(){
 		}		
 }
 void account(){
-	
+	int choice;
+	int i=0;
+    int a=0;
+  	FILE *fpr;
+  	char pw[255];
+  	char add[255];
+  	char act[255];
+    
+  	i =0;
+	printf("1.Display data\n2.change Password\n3.change address\n4.Change bank account number\n5.End\n");
+	scanf("%d",&choice);
+	while(choice!=5){
+		switch(choice){
+			case 1:
+					fpr = fopen("accounttest.txt", "r");
+					printf("Display data\n");
+					fgets(pw, 255, (FILE*)fpr);
+   					printf("Account Password:%s\n",pw);
+   					fgets(add, 255, (FILE*)fpr);
+   					printf("Address:%s\n",add);
+   					fgets(act, 255, (FILE*)fpr);
+   					printf("Bank Account:%s\n",act);
+				break;
+			case 2:
+					fpr = fopen("accounttest.txt", "w");
+					printf("Change Password\n");
+					scanf("%s",&pw);
+   					fprintf(fpr,"%s\n",pw);
+					fprintf(fpr,"%s\n",add);
+					fprintf(fpr,"%s\n",act);			
+				break;
+			case 3:
+					fpr = fopen("accounttest.txt", "w");
+					printf("Change address\n");
+					scanf("%s",&add);
+   					fprintf(fpr,"%s\n",pw);
+					fprintf(fpr,"%s\n",add);
+					fprintf(fpr,"%s\n",act);
+				break;
+			case 4:
+					fpr = fopen("accounttest.txt", "w");
+					printf("Change bank account number\n");
+					scanf("%s",&act);
+   					fprintf(fpr,"%s\n",pw);
+					fprintf(fpr,"%s\n",add);
+					fprintf(fpr,"%s\n",act);
+				break;
+			default:
+				fclose(fpr);
+				break;
+		}
+		i++;
+		printf("1.Display data\n2.change Password\n3.change address\n4.Change bank account number\n5.End\n");
+		scanf("%d",&choice); 
+		}
+		
 }
 
 
