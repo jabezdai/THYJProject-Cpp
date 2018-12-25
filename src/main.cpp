@@ -27,6 +27,7 @@ void readbook(int);
 void use();
 void exchange();
 void account();
+void card();
 int main() {
 	int choice;
 	FILE *fp;
@@ -56,6 +57,7 @@ int main() {
 				search();
 				break;
 			case 2:
+				card();
 				break;
 			case 3:
 				break;
@@ -1423,3 +1425,48 @@ void exchange(){
 void account(){
 	
 }
+
+
+void card() {
+	int choice;
+	int i=0;
+    int a=0;
+  	FILE *fpr;
+    fpr=fopen("book0215.txt","r");
+    fscanf(fpr,"%d",&a);
+	int test[a]; 
+        for(i=0;i<a;i++)
+        {
+            fscanf(fpr,"%d",&test[i]); 
+        }
+  	fclose(fpr);
+  	i =0;
+	printf("1.Checkout\n2.End\n");
+	scanf("%d",&choice);
+	while(choice!=2){
+		switch(choice){
+			case 1:
+				if (test[i]<10 && test[i]>=1 )
+				{
+					printf("Successful Checkout\n");
+				}
+				else if (test[i]==0)
+				{
+					printf("No books in shopping cart\n");
+				}
+				else
+				{
+					printf("unsuccessful Checkout\n");
+				}
+				
+				break;
+			default:
+				break;
+		}
+		i++;
+		printf("1.Checkout\n2.End\n");
+		scanf("%d",&choice); 
+		}		
+}
+
+
