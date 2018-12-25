@@ -24,6 +24,9 @@ void search();
 void color(short);
 struct booktype book[booknumber];
 void readbook(int);
+void use();
+void exchange();
+void account();
 int main() {
 	int choice;
 	FILE *fp;
@@ -45,9 +48,9 @@ int main() {
 	}
 	fclose(fp);
 	prin(n,booknumber);
-	printf("1.Search\n2.Add to shopping cart\n3.Checkout\n4.End\n");
+	printf("1.Search\n2.Add to shopping cart\n3.Checkout\n4.Use\n5.End\n");
 	scanf("%d",&choice);
-	while(choice!=4){
+	while(choice!=5){
 		switch(choice){
 			case 1:
 				search();
@@ -56,10 +59,13 @@ int main() {
 				break;
 			case 3:
 				break;
+			case 4:
+				use();
+				break;
 			default:
 				break;
 		}
-		printf("1.Search\n2.Add to shopping cart\n3.Checkout\n4.End\n");
+		printf("1.Search\n2.Add to shopping cart\n3.Checkout\n4.Use\n5.End\n");
 		scanf("%d",&choice);
 		prin(n,booknumber);
 	}
@@ -68,7 +74,7 @@ int main() {
 int login(){
 	return 1;
 }
-void prin(int *n,int len){//傳要顯示的結構的index還有要顯示幾個進來
+void prin(int *n,int len){
 	if(len!=0)
 		printf("name\tauthor\tprice\tE-book\ttype\n");
 	for(int i=0;i<len;i++){
@@ -1349,3 +1355,71 @@ void readbook(int chose){
 
 }
 
+void use(){
+	int choice;
+	printf("1.Exchange\n2.Account\n3.End\n");
+	scanf("%d",&choice);
+	while(choice!=3){
+		switch(choice){
+			case 1:
+				exchange();
+				break;
+			case 2:
+				account();
+				break;
+			default:
+				break;
+		}
+		printf("1.Exchange\n2.Account\n3.End\n");
+		scanf("%d",&choice);
+}
+}
+void exchange(){
+	int choice;
+	int i=0;
+    int a=0;
+  	FILE *fpr;
+    fpr=fopen("exchangetest.txt","r");
+    fscanf(fpr,"%d",&a);
+	int test[a]; 
+        for(i=0;i<a;i++)
+        {
+            fscanf(fpr,"%d",&test[i]); 
+        }
+  	fclose(fpr);
+  	i =0;
+	printf("1.10%%Exchange\n2.20%%Exchange\n3.End\n");
+	scanf("%d",&choice);
+	while(choice!=3){
+		switch(choice){
+			case 1:
+				if (test[i]>=1)
+				{
+					printf("Successful redemption\n");
+				}
+				else
+				{
+					printf("Inadequate purchase record\n");
+				}
+				break;
+			case 2:
+				if (test[i]>=5)
+				{
+					printf("Successful redemption\n");
+				}
+				else
+				{
+					printf("Inadequate purchase record\n");
+				}
+				break;
+			default:
+				break;
+		}
+		i++;
+		printf("1.10%%Exchange\n2.20%%Exchange\n3.End\n");
+		scanf("%d",&choice); 
+		}		
+}
+void account(){
+	
+}
