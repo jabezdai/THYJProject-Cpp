@@ -18,6 +18,7 @@ booktype::booktype(){
 	fileexist=0;
 	type[0]='\0';
 }
+void login();
 void prin(int*,int);
 void search();
 void color(short);
@@ -41,7 +42,7 @@ int main() {
 	int i=0,shopcar[booknumber]={};
 	FILE *fp;
 	int n[booknumber];
-	system("pause");
+//	login();
 	if((fp=fopen("buy.txt","r"))!=NULL){
 		while((fscanf(fp,"%s %s %d %d %s ",&name,&author,&price,&fileexist,&type))==5){
 			pch=strtok(type,dot);
@@ -75,9 +76,9 @@ int main() {
 				search();
 				break;
 			case 2:
-				scanf("%d",&addtoshop);
-				i=ashopcar(shopcar,addtoshop,i);
-//				card();
+//				scanf("%d",&addtoshop);
+//				i=ashopcar(shopcar,addtoshop,i);
+				card();
 				break;
 			case 3:
 				i=checkout(shopcar,i);
@@ -201,7 +202,7 @@ void prin(int *n,int len){
 void search(){
 	int choice,k=0,st=0,match,th=0,tw=0,chose,bkcheck=1;
 	char *del = ",";
-	char *pch,*pchsea,*pchsea2,*pchsea3,*pchsea4,*pchsea5,*pchsea6;
+	char *pch,*pchsea,*pchsea2,*pchsea3,*pchsea4,*pchsea5,*pchsea6,*pchsea7;
 	char seatype[20][3],s[100],temp[20],searchtemp[20];
 	int threematch[booknumber],twomatch[booknumber],n[booknumber];
 	int searchbook[20]={0};
@@ -321,6 +322,7 @@ void search(){
 			pchsea4=strtok(NULL,del);
 			pchsea5=strtok(NULL,del);
 			pchsea6=strtok(NULL,del);
+			pchsea7=strtok(NULL,del);
 			for(int i=0;i<booknumber;i++){
 				strcpy(temp,book[i].type);
 				match=0;
@@ -1467,6 +1469,32 @@ void readbook(int chose){
 
 }
 
+void login(){
+  	char pw[255];
+  	char add[255];
+  	char passw[255],adress[255];
+  	passw[0]='\0';
+  	adress[0]='\0';
+  	pw[0]='\0';
+  	add[0]='\0';
+  	FILE *fpr;
+	fpr = fopen("accounttest.txt", "r");
+	fgets(pw, 255, (FILE*)fpr);
+	fgets(add, 255, (FILE*)fpr);
+	printf("Address:%s",add);
+	printf("Password:%s",pw);
+	fclose(fpr);
+	printf("Address:");
+	scanf("%s",&adress);
+	printf("Password:");
+	scanf("%s",&passw);
+	while(strcmp(pw,passw)!=0&&strcmp(add,adress)!=0){
+		printf("Address:");
+		scanf("%s",&adress);
+		printf("Password:");
+		scanf("%s",&passw);
+	}
+}
 void use(){
 	int choice;
 	printf("1.Exchange\n2.Account\n3.End\n");
@@ -1581,13 +1609,13 @@ void account(){
 					fprintf(fpr,"%s\n",act);
 				break;
 			default:
-				fclose(fpr);
 				break;
-		}
+			}
+		fclose(fpr);
 		i++;
 		printf("1.Display data\n2.change Password\n3.change address\n4.Change bank account number\n5.End\n");
 		scanf("%d",&choice); 
-		}
+	}
 		
 }
 
@@ -1600,10 +1628,10 @@ void card() {
     fpr=fopen("book0215.txt","r");
     fscanf(fpr,"%d",&a);
 	int test[a]; 
-        for(i=0;i<a;i++)
-        {
-            fscanf(fpr,"%d",&test[i]); 
-        }
+    for(i=0;i<a;i++)
+    {
+        fscanf(fpr,"%d",&test[i]); 
+    }
   	fclose(fpr);
   	i =0;
 	printf("1.Checkout\n2.End\n");
