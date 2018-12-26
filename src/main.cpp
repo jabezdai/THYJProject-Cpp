@@ -18,7 +18,6 @@ booktype::booktype(){
 	fileexist=0;
 	type[0]='\0';
 }
-int login();
 void prin(int*,int);
 void search();
 void color(short);
@@ -32,14 +31,26 @@ int ashopcar(int*,int,int);
 int del(int*,int,int);
 void card();
 int main() {
+	char *dot = ",";
+	char name[10];
+	char author[10];
+	int price;
+	int fileexist;
+	char type[20],*pch;
 	int choice,addtoshop;
 	int i=0,shopcar[booknumber]={};
 	FILE *fp;
 	int n[booknumber];
-	if(login()==0){
-		return 0;
-	}
 	system("pause");
+	if((fp=fopen("buy.txt","r"))!=NULL){
+		while((fscanf(fp,"%s %s %d %d %s ",&name,&author,&price,&fileexist,&type))==5){
+			pch=strtok(type,dot);
+			while (pch != NULL){
+				printf("%s",pch);
+			    pch = strtok(NULL,dot);
+			}
+		}
+	}
 	//bookstore.txt "book name" author price "is E-book exist?" type
 	if((fp=fopen("bookstore.txt","r"))!=NULL){
 		for(int k=0;k<booknumber;k++){
@@ -64,9 +75,9 @@ int main() {
 				search();
 				break;
 			case 2:
-//				scanf("%d",&addtoshop);
-//				i=ashopcar(shopcar,addtoshop,i);
-				card();
+				scanf("%d",&addtoshop);
+				i=ashopcar(shopcar,addtoshop,i);
+//				card();
 				break;
 			case 3:
 				i=checkout(shopcar,i);
@@ -83,9 +94,6 @@ int main() {
 		scanf("%d",&choice);
 	}
     return 0;
-}
-int login(){
-	return 1;
 }
 int ashopcar(int *n,int shopcar,int i){
 	int k;
@@ -141,7 +149,14 @@ int checkout(int *n,int len){
 	if(ch=='y'){
 		fp=fopen("buy.txt","a");
 		for(int i;i<len;i++){
-			fprintf(fp,"%s\t%s\t%d\n",book[n[i]].name,book[n[i]].author,book[n[i]].price);
+			fprintf(fp,"%s\t%s\t%d\t",book[n[i]].name,book[n[i]].author,book[n[i]].price);
+			if(book[n[i]].fileexist==1){
+				fprintf(fp,"O\t");
+			}
+			else{
+				fprintf(fp,"X\t");
+			}
+			fprintf(fp,"%s\n",book[n[i]].type);
 		}
 		fclose(fp);
 		return 0;
