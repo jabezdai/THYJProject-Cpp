@@ -27,9 +27,13 @@ void readbook(int);
 void use();
 void exchange();
 void account();
+int checkout(int*,int);
+int ashopcar(int*,int,int);
+int del(int*,int,int);
 void card();
 int main() {
-	int choice;
+	int choice,addtoshop;
+	int i=0,shopcar[booknumber]={};
 	FILE *fp;
 	int n[booknumber];
 	if(login()==0){
@@ -49,17 +53,23 @@ int main() {
 	}
 	fclose(fp);
 	prin(n,booknumber);
-	printf("1.Search\n2.Add to shopping cart\n3.Checkout\n4.Use\n5.End\n");
+	color(3);
+	printf("1.Search\n2.Add to shopping cart\n3.show shopping cart and Checkout\n4.Use\n5.End\n");
+	color(7);
 	scanf("%d",&choice);
 	while(choice!=5){
 		switch(choice){
 			case 1:
+				prin(n,booknumber);
 				search();
 				break;
 			case 2:
+//				scanf("%d",&addtoshop);
+//				i=ashopcar(shopcar,addtoshop,i);
 				card();
 				break;
 			case 3:
+				i=checkout(shopcar,i);
 				break;
 			case 4:
 				use();
@@ -67,14 +77,97 @@ int main() {
 			default:
 				break;
 		}
-		printf("1.Search\n2.Add to shopping cart\n3.Checkout\n4.Use\n5.End\n");
+		color(3);
+		printf("1.Search\n2.Add to shopping cart\n3.show shopping cart and Checkout\n4.Use\n5.End\n");
+		color(7);
 		scanf("%d",&choice);
-		prin(n,booknumber);
 	}
     return 0;
 }
 int login(){
 	return 1;
+}
+int ashopcar(int *n,int shopcar,int i){
+	int k;
+	if(i==0){
+		n[0]=shopcar-1;
+		return i+1;
+	}
+	for(k=0;k<i;k++){
+		if(n[k]==shopcar-1){
+			color(4);
+			printf("%s\t%s\t%d\t",book[n[k]].name,book[n[k]].author,book[n[k]].price);
+			printf("already exist\n");
+			color(7);
+			break;
+		}
+	}
+	if(k==i){
+		n[i]=shopcar-1;
+		return i+1;
+	}
+	else{
+		return i;
+	}
+}
+int checkout(int *n,int len){
+	int ch,delitem;
+	int total;
+	FILE *fp;
+	prin(n,len);
+	color(3);
+	printf("delete item in shopping cart?\n");
+	printf("if yes input y");
+	color(7);
+	scanf("%s",&ch);
+	while(ch=='y'){
+		printf("delete:");
+		scanf("%d",&delitem);
+		len=del(n,delitem,len);
+		color(3);
+		printf("delete item in shopping cart?\n");
+		printf("if yes input y");
+		color(7);
+		scanf("%s",&ch);
+	}
+	printf("checkout:");
+	for(int k=0;k<len;k++){
+		total+=book[n[k]].price;
+	}
+	printf("price=%d\n",total);
+	printf("checkout now?");
+	printf("if yes input y");
+	scanf("%s",&ch);
+	if(ch=='y'){
+		fp=fopen("buy.txt","a");
+		for(int i;i<len;i++){
+			fprintf(fp,"%s\t%s\t%d\n",book[n[i]].name,book[n[i]].author,book[n[i]].price);
+		}
+		fclose(fp);
+		return 0;
+	}
+	else{
+		return len;
+	}
+}
+int del(int *n,int del,int i){
+	int k;
+	for(k=0;k<i;k++){
+		if(n[k]==del-1){
+			break;
+		}
+	}
+	if(k==i){
+		color(4);
+		printf("%s\t%s\t%d\t",book[del-1].name,book[del-1].author,book[del-1].price);
+		printf("not exist\n");
+		color(7);
+		return i;
+	}
+	for(k;k<i;k++){
+		n[k]=n[k+1];
+	}
+	return i-1;
 }
 void prin(int *n,int len){
 	if(len!=0)
@@ -99,13 +192,15 @@ void search(){
 	int searchbook[20]={0};
 	char check = 'a';
 	FILE *fp;
+	color(3);
 	printf("\n\n1.Search by book name\n2.Search by author\n3.Search by type\n4.End\n");
 	scanf("%d",&choice);
 	printf("if choose ");
 	color(11);
 	printf("3.Search by type ");
-	color(7);
+	color(3);
 	printf("please use ',' to separated input\n");
+	color(7);
 	scanf("%s",&s);
 	switch(choice){
 		case 1:
